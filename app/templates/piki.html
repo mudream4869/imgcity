@@ -1,0 +1,34 @@
+{% extends "template.html" %}
+
+{% block body %}
+
+<style>
+
+img {
+max-width: 100%;
+}
+
+</style>
+
+
+
+
+<div class="white-space">
+
+  <div>
+  / <a href='/piki/'> piki </a> /
+  {% for bc in breadcrumb %}
+  <a href="{{bc['link']}}">{{bc['text']}}</a> /
+  {% end %}
+  </div>
+
+  {% raw content %}
+</div>
+
+<div class="right-menu">
+  <div class="item" onclick="location.href='/'"> 主畫面 </div>
+  <div class="item" onclick="location.href='/blog/'"> 網誌區 </div>
+  <div class="item" onclick="location.href='/piki/'"> Piki </div>
+</div>
+
+{% end %}

@@ -1,0 +1,18 @@
+{% extends "template.html" %}
+
+{% block body %}
+
+<div>
+  <div class="noselect is-link" id="title"
+    onclick="location.href='/piki/imaginary-city'">
+    Imaginary City
+  </div>
+
+  <div id="box" class="noselect">
+    <div class="item" onclick="location.href='/blog/'"> 網誌 </div>
+    <div class="item" onclick="location.href='/piki/'"> Piki </div>
+    <div class="item" onclick="location.href='/piki/mudream/'"> 關於我 </div>
+  </div>
+</div>
+
+{% end %}

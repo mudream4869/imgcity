@@ -1,0 +1,51 @@
+{% extends "template.html" %}
+
+{% block body %}
+
+<style>
+
+a.title{
+  text-decoration: none;
+  color: black;
+}
+
+h2 > small{
+  color: #999999;
+}
+
+div.content{
+  padding-bottom: 15px;
+}
+
+</style>
+
+
+<div style="padding: 10%; padding-top: 5px;">
+
+{% for bp in blogpost_list %}
+
+<a href="/blog/{{bp['datetime']}}/{{bp['filename']}}/" class="title">
+  <h2>
+    {{bp['title']}} <small> {{bp['datetime']}} </small>
+  </h2>
+</a>
+
+<div class="content">
+  {% raw bp['abstract'] %}
+  <a href="/blog/{{bp['datetime']}}/{{bp['filename']}}/"
+     style="text-decoration:none;">...繼續閱讀</a>
+</div>
+
+<hr/>
+
+{% end %}
+
+</div>
+
+<div class="right-menu">
+  <div class="item" onclick="location.href='/'"> 主畫面 </div>
+  <div class="item" onclick="location.href='/blog/'"> 網誌區 </div>
+  <div class="item" onclick="location.href='/piki/'"> Piki </div>
+</div>
+
+{% end %}
