@@ -1,0 +1,65 @@
+- name: Deploy ImgCity
+  hosts: production
+  become: true
+  vars:
+    secret_cookie: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}"
+
+  tasks:
+
+    - name: Source code
+      git:
+        repo: https://github.com/mudream4869/imgcity.git
+        dest: /srv/imgcity
+        version: main
+
+    - name: Chown
+      file:
+        path: /srv/imgcity
+        owner: cityrunner
+        recurse: yes
+
+    - name: Initialize virtualenv
+      become: true
+      become_user: cityrunner
+      pip:
+        virtualenv: /srv/imgcity/venv
+        virtualenv_python: python3.6
+        requirements: /srv/imgcity/requirements.txt
+    
+    - name: Copy Config
+      template:
+        src: app.yaml
+        dest: /srv/imgcity/app.yaml
+
+    - name: Copy Run Script
+      template:
+        src: run.sh
+        dest: /srv/imgcity/run.sh
+    
+    - name: Create Log Folder
+      file:
+        path: /var/log/imgcity
+        state: directory
+        owner: cityrunner
+        group: cityrunner
+        mode: 0775
+
+    - name: Config Supervisor
+      copy:
+        src: supervisor.conf
+        dest: /etc/supervisor/conf.d/imgcity.conf
+
+    - name: Restart Supervisor
+      supervisorctl:
+        name: imgcity
+        state: restarted
+
+    - name: Config Nginx
+      copy:
+        src: nginx.conf
+        dest: /etc/nginx/sites-available/imgcity
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted

@@ -1,18 +1,23 @@
 import os
+import sys
 
 import redis
 import tornado.ioloop
 from tornado import web
+
+import yaml
 
 from app import blog, piki
 from app.handlers import (BlogFileHandler, BlogHandler, BlogIndexHandler,
                           MainHandler, PikiFileHandler, PikiHandler)
 
 
-def make_app():
+def make_app(config):
+    srv_conf = config['server']
+
     redis_client = redis.Redis()
-    piki_root = 'data/piki'
-    blog_root = 'data/blog'
+    piki_root = srv_conf['piki_root']
+    blog_root = srv_conf['blog_root']
 
     piki_reader = piki.PikiReader(
         redis_client=redis_client, piki_root=piki_root)
@@ -29,10 +34,10 @@ def make_app():
     file_dir = os.path.dirname(__file__)
 
     setting = {
-        'debug': True,
-        'cookie_secret': 'abcde',
-        'static_path': os.path.join(file_dir, "static"),
-        'template_path': os.path.join(file_dir, "templates")
+        'debug': srv_conf.get('debug', False),
+        'cookie_secret': srv_conf['cookie_secret'],
+        'static_path': os.path.join(file_dir, 'static'),
+        'template_path': os.path.join(file_dir, 'templates')
     }
 
     return tornado.web.Application([
@@ -42,15 +47,20 @@ def make_app():
         (r'/blog/(\d{4})-(\d{2})-(\d{2})/(.*)',
          BlogFileHandler, {'path': blog_root}),
 
-        (r'/piki/', web.RedirectHandler, {"url": "/piki/index/"}),
+        (r'/piki/', web.RedirectHandler, {'url': '/piki/index/'}),
         (r'/piki/(.*)/', PikiHandler, args),
         (r'/piki/(.*)', PikiFileHandler, {'path': piki_root}),
     ], **setting)
 
 
 if __name__ == '__main__':
-    app = make_app()
-    app.listen(8888)
+    with open(sys.argv[1]) as fp:
+        config = yaml.safe_load(fp)
 
-    print('Start listening port', 8888)
+    app = make_app(config)
+
+    port = config['server']['port']
+    app.listen(port)
+
+    print('Start listening port', port)
     tornado.ioloop.IOLoop.current().start()

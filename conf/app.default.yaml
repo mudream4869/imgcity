@@ -1,0 +1,6 @@
+server:
+  port: 8888
+  debug: False
+  cookie_secret: abcde
+  piki_root: data/piki
+  blog_root: data/blog
