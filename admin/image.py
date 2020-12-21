@@ -4,7 +4,7 @@ import os
 import PIL.Image
 
 
-class ImageHandler:
+class ImageFileHandler:
     def __init__(self, blog_root: str):
         self.blog_root = blog_root
 

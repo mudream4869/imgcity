@@ -61,7 +61,7 @@ code {
 <navbar placement="static" type="default">
     <li slot="left">
         <form class="form-inline navbar-form">
-            <bs-input label="標題" v-model="title" @input="updateTitle"></bs-input>
+            <bs-input label="標題" v-model="title"></bs-input>
         </form>
     </li>
     <dropdown text="圖片">
@@ -122,20 +122,20 @@ code {
 
 function markup(data, path){
     content = marked(data);
-    var elem = document.createElement("div");
+    var elem = document.createElement('div');
     elem.innerHTML = content;
 
     // Rewrite image url
 
-    var images = elem.getElementsByTagName("img");
+    var images = elem.getElementsByTagName('img');
     for(var i = 0; i < images.length; i++){
         var image = images[i];
         var src = image.getAttribute('src');
         console.log(src);
-        if(src.indexOf("//") == -1 && src[0] != "/")
-            src = path + "/" + src;
+        if(src.indexOf('//') == -1 && src[0] != '/')
+            src = path + '/' + src;
         image.src = src;
-        image.style.maxWidth = "100%";
+        image.style.maxWidth = '100%';
     }
 
     return elem.innerHTML;
@@ -143,32 +143,32 @@ function markup(data, path){
 
 Date.prototype.toString = function() {
     var yyyy = this.getFullYear();
-    var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
-    var dd  = this.getDate() < 10 ? "0" + this.getDate() : this.getDate();
-    var hh = this.getHours() < 10 ? "0" + this.getHours() : this.getHours();
-    var min = this.getMinutes() < 10 ? "0" + this.getMinutes() : this.getMinutes();
-    var ss = this.getSeconds() < 10 ? "0" + this.getSeconds() : this.getSeconds();
-    return "".concat(yyyy).concat("/").concat(mm).concat("/").concat(dd).concat(" ")
-             .concat(hh).concat(":").concat(min).concat(":").concat(ss);
+    var mm = this.getMonth() < 9 ? '0' + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
+    var dd  = this.getDate() < 10 ? '0' + this.getDate() : this.getDate();
+    var hh = this.getHours() < 10 ? '0' + this.getHours() : this.getHours();
+    var min = this.getMinutes() < 10 ? '0' + this.getMinutes() : this.getMinutes();
+    var ss = this.getSeconds() < 10 ? '0' + this.getSeconds() : this.getSeconds();
+    return ''.concat(yyyy).concat('/').concat(mm).concat('/').concat(dd).concat(' ')
+             .concat(hh).concat(':').concat(min).concat(':').concat(ss);
 };
 
 var app = new Vue({
     el: '#app',
-    delimiters: ["%{","}"],
+    delimiters: ['%{','}'],
     data: {
-        blogpost : "",
-        title : "",
-        filepath : "{{filepath}}",
+        blogpost : '',
+        title : '',
+        filepath : '{{filepath}}',
         image_list : [],
         is_saved : true,
         img_ctrl : {
             show : false,
-            filename : "",
+            filename : '',
         },
         img_upload : {
             show : false,
             file : null,
-            filename : ""
+            filename : ''
         },
     },
     components: {
@@ -179,25 +179,19 @@ var app = new Vue({
     },
     computed : {
         markupBlogpost : function(){
-            return markup(this.blogpost, "/blogdb/" + this.filepath);
+            return markup(this.blogpost, '/blogdb/' + this.filepath);
         }
     },
     created : function(){
-        this.$http.post("/blog/" + this.filepath, {}, {
-            params : {
-                method : "getPost"
-            }
+        this.$http.get('/api/blog/' + this.filepath, {}, {
         }).then(function(ret){
             this.blogpost = ret.body.md;
             this.title = ret.body.title;
         }, function(ret){
-            this.blogpost = "";
+            this.blogpost = '';
         });
 
-        this.$http.post("/image/" + this.filepath, {}, {
-            params : {
-                method : "listImage"
-            }
+        this.$http.get('/api/image/' + this.filepath, {}, {
         }).then(function(ret){
             this.image_list = ret.body;
         });
@@ -206,7 +200,7 @@ var app = new Vue({
     },
     methods : {
         testMathjax : function(){
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, document]);
+            MathJax.Hub.Queue(['Typeset', MathJax.Hub, document]);
         },
         updateBlogpost: _.debounce(function (e) {
             this.blogpost = e.target.value;
@@ -216,20 +210,18 @@ var app = new Vue({
             this.saveTitle();
         }, 60000),
         saveBlogpost : function(){
-            this.$http.post("/blog/" + this.filepath, {}, {
-                params:{
-                    method : "updatePost",
-                    md : this.blogpost,
+            this.$http.patch('/api/blog/' + this.filepath, {}, {
+                params: {
+                    md: this.blogpost,
                 }
             }).then(function(){
                 this.is_saved = true;
             });
         },
         saveTitle : function(){
-            this.$http.post("/blog/" + this.filepath, {}, {
-                params:{
-                    method : "updatePost",
-                    title : this.title,
+            this.$http.patch('/api/blog/' + this.filepath, {}, {
+                params: {
+                    title: this.title,
                 }
             });
         },
@@ -237,10 +229,9 @@ var app = new Vue({
             this.img_upload.file = e.target.files[0];
         },
         deleteImage : function(){
-            this.$http.post("/image/" + this.filepath, {}, {
-                params:{
-                    method : "deleteImage",
-                    filename : this.img_ctrl.filename,
+            this.$http.delete('/api/image/' + this.filepath, {
+                params: {
+                    filename: this.img_ctrl.filename,
                 }
             });
             ind = this.image_list.indexOf(this.img_ctrl.filename);
@@ -250,14 +241,14 @@ var app = new Vue({
             data = new FormData();
             data.append('file', this.img_upload.file);
             data.append('filename', this.img_upload.filename);
-            data.append('method', "uploadImage");
+            data.append('method', 'uploadImage');
             this.image_list.push(this.img_upload.filename);
-            this.$http.post("/image/" + this.filepath, data).then(function(){ 
+            this.$http.post('/api/image/' + this.filepath, data).then(function(){ 
                 console.log('success!');
             });
         },
         leave : function(){
-            window.location.href = "/blog/";
+            window.location.href = '/blog/';
         }
     }
 });

@@ -12,7 +12,7 @@
                 <tr><td>標題</td> <td>日期</td> <td>檔案名稱</td> <td>操作</td></tr>
             </thead>
             <tbody>
-                <tr v-for="blogpost in sorted_blogpost_list">
+                <tr v-for="blogpost in sortedBlogpostList">
                     <td>%[blogpost.title]</td>
                     <td>%[blogpost.datetime.toString()]</td>
                     <td>%[blogpost.filename]</td>
@@ -62,20 +62,20 @@
 
 Date.prototype.toString = function() {
     var yyyy = this.getFullYear();
-    var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
-    var dd  = this.getDate() < 10 ? "0" + this.getDate() : this.getDate();
-    var hh = this.getHours() < 10 ? "0" + this.getHours() : this.getHours();
-    var min = this.getMinutes() < 10 ? "0" + this.getMinutes() : this.getMinutes();
-    var ss = this.getSeconds() < 10 ? "0" + this.getSeconds() : this.getSeconds();
-    return "".concat(yyyy).concat("/").concat(mm).concat("/").concat(dd).concat(" ")
-             .concat(hh).concat(":").concat(min).concat(":").concat(ss);
+    var mm = this.getMonth() < 9 ? '0' + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
+    var dd  = this.getDate() < 10 ? '0' + this.getDate() : this.getDate();
+    var hh = this.getHours() < 10 ? '0' + this.getHours() : this.getHours();
+    var min = this.getMinutes() < 10 ? '0' + this.getMinutes() : this.getMinutes();
+    var ss = this.getSeconds() < 10 ? '0' + this.getSeconds() : this.getSeconds();
+    return ''.concat(yyyy).concat('/').concat(mm).concat('/').concat(dd).concat(' ')
+             .concat(hh).concat(':').concat(min).concat(':').concat(ss);
 };
 
 Vue.config.delimiters = ['%[', ']'];
 
 var app = new Vue({
     el: '#app',
-    delimiters: ["%[","]"],
+    delimiters: ['%[',']'],
     components: {
         bsInput: VueStrap.input,
         modal: VueStrap.modal,
@@ -83,13 +83,13 @@ var app = new Vue({
     },
     data: {
         blogpost_list : [],
-        value : "",
+        value : '',
         create_post : {
             show_modal : false,
             year : 0,
             month : 0,
             day : 0,
-            filename : "",
+            filename : '',
         },
         delete_post : {
             show_modal : false,
@@ -101,7 +101,7 @@ var app = new Vue({
         this.initialBlogpost();
     },
     computed : {
-        sorted_blogpost_list : function(){
+        sortedBlogpostList: function(){
             tmp = this.blogpost_list.slice();
             tmp.sort(function(a, b){
                 if(a.datetime > b.datetime)
@@ -116,11 +116,8 @@ var app = new Vue({
     },
     methods: {
         initialBlogpost: function() {
-            this.$http.post("/blog/",
+            this.$http.get('/api/blog/',
                 {}, {
-                params:{
-                    method : "listPost",
-                }
             }).then(function(ret){
                 res = JSON.parse(ret.bodyText);
                 this.blogpost_list = [];
@@ -141,11 +138,13 @@ var app = new Vue({
             this.create_post.day = this.digit2(currentTime.getDate());
         },
         digit2 : function(i){
-            if(i < 10) return "0" + i;
-            return "" + i;
+            if (i < 10) {
+                return '0' + i
+            }
+            return i
         },
         getFilepath : function(blogpost){
-            return blogpost.datetime.toISOString().slice(0,10).replace(/-/g,"/") +
+            return blogpost.datetime.toISOString().slice(0,10).replace(/-/g,'/') +
                    '/' + blogpost.filename;
         },
         editPost : function(blogpost){
@@ -156,24 +155,19 @@ var app = new Vue({
             this.delete_post.blogpost = blogpost;
         },
         deletePost : function(blogpost){
-            this.$http.post("/blog/" + this.getFilepath(blogpost),
-                {}, {
-                params:{
-                    method : "deletePost",
-                }
+            this.$http.delete('/api/blog/' + this.getFilepath(blogpost), {
             }).then(function(ret){
                 ind = this.blogpost_list.indexOf(blogpost);
                 this.blogpost_list.splice(ind, 1);
             });
         },
         submitCreatePost : function(){
-            this.$http.post("/blog/" + this.create_post.year + "/" +
-                                       this.create_post.month + "/" +
-                                       this.create_post.day + "/" + this.create_post.filename,
+            const filePath = this.create_post.year + '/' +
+                            this.create_post.month + '/' +
+                            this.create_post.day + '/' + this.create_post.filename
+
+            this.$http.post('/api/blog/' + filePath,
                 {}, {
-                params:{
-                    method : "createPost",
-                }
             }).then(function(ret){
                 res = JSON.parse(ret.bodyText);
                 res.datetime = new Date(res.datetime);
