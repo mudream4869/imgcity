@@ -38,7 +38,7 @@ class BlogHandler(RequestHandler):
     def get(self, filepath):
         if not filepath:
             simple_list = []
-            for bp in self.blogpost_handler.list():
+            for bp in self.blogpost_handler.get_list():
                 simple_list.append({
                     'title': bp['title'],
                     'filename': bp['filename'],
@@ -72,7 +72,7 @@ class BlogServer(RequestHandler):
     def get(self, filepath):
         if not filepath:
             self.render('blogpost_list.html',
-                        blogpost_list=self.blogpost_handler.list())
+                        blogpost_list=self.blogpost_handler.get_list())
         else:
             self.render('blogpost.html',
                         filepath=filepath)

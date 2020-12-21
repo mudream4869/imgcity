@@ -27,14 +27,18 @@ class BlogpostHandler:
             yaml.dump(self.blogpost_list, f,
                       default_flow_style=False, allow_unicode=True)
 
-    def list(self):
+    def get_list(self):
         return self.blogpost_list
 
     def _get_blogpost(self, filepath):
+        part = filepath.split('/')
+        to_match_date_tuple = tuple(map(int, part[0: 3]))
+        to_match_filename = part[3]
+
         for blogpost in self.blogpost_list:
             dt = blogpost['datetime']
-            part = filepath.split('/')
-            if blogpost['filename'] == part[3] and dt.year == int(part[0]) and dt.month == int(part[1]) and dt.day == int(part[2]):
+            date_tuple = (dt.year, dt.month, dt.day)
+            if blogpost['filename'] == to_match_filename and date_tuple == to_match_date_tuple:
                 return blogpost
 
         return None
