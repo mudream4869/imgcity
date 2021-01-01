@@ -6,6 +6,11 @@ import dateutil.parser
 import yaml
 
 
+class MyDumper(yaml.Dumper):
+    def increase_indent(self, flow=False, indentless=False):
+        return super(MyDumper, self).increase_indent(flow, False)
+
+
 class BlogpostHandler:
     def __init__(self, blog_root: str):
         self.blog_root = blog_root
@@ -27,7 +32,8 @@ class BlogpostHandler:
             cont = {
                 'bloglist': self.blogpost_list
             }
-            yaml.dump(cont, f, default_flow_style=False, allow_unicode=True)
+            yaml.dump(cont, f, default_flow_style=False,
+                      allow_unicode=True, Dumper=MyDumper)
 
     def list(self):
         return self.blogpost_list

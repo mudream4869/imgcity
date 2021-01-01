@@ -137,3 +137,6 @@ bloglist:
   - datetime: 2020-06-21 08:00:00
     filename: solar-eclipse-2020
     title: 日環食 2020
+  - datetime: 2021-01-01 08:00:00
+    filename: 2020-end-of-year
+    title: 2020 回顧與新年希望
