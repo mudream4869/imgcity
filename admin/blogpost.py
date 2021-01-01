@@ -20,12 +20,14 @@ class BlogpostHandler:
 
     def pull_list(self):
         with open(self.blog_yaml, encoding='utf-8') as f:
-            self.blogpost_list = yaml.safe_load(f.read())
+            self.blogpost_list = yaml.safe_load(f.read())['bloglist']
 
     def push_list(self):
         with open(self.blog_yaml, 'w') as f:
-            yaml.dump(self.blogpost_list, f,
-                      default_flow_style=False, allow_unicode=True)
+            cont = {
+                'bloglist': self.blogpost_list
+            }
+            yaml.dump(cont, f, default_flow_style=False, allow_unicode=True)
 
     def list(self):
         return self.blogpost_list

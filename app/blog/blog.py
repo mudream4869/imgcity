@@ -52,7 +52,7 @@ class BlogReader:
         """
         path = os.path.join(self.blog_root, 'blog.yaml')
         with open(path, 'r') as f:
-            blogitems = yaml.safe_load(f)
+            blogitems = yaml.safe_load(f)['bloglist']
             blogitems.sort(key=lambda x: x['datetime'], reverse=True)
             for item in blogitems:
                 dt = item['datetime']
