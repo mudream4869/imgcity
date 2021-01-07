@@ -14,6 +14,14 @@ img {
   {% raw content %}
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.querySelectorAll('pre code').forEach((block) => {
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
 <div class="right-menu">
   <div class="item" onclick="location.href='/'"> 主畫面 </div>
   <div class="item" onclick="location.href='/blog/'"> 網誌區 </div>
