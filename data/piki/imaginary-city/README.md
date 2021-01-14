@@ -1,8 +1,6 @@
 # Imaginary City
 
-[Github repo](https://github.com/mudream4869/imaginary-city)
-
-[RSS Feed](/rss.xml)
+[Github repo](https://github.com/mudream4869/imgcity)
 
 一個紀錄著「我」的部落格程序。
 
@@ -33,5 +31,4 @@ Piki 是 Private Wiki 的縮寫，只由站長編輯的靜態頁面，
 
 ## 授權說明
 
-Coding 部分以 [Apache License](https://github.com/mudream4869/imaginary-city/blob/master/LICENSE) 發布，
-文章以 [CC-BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) 發佈。
+Coding 部分以 [Apache License](https://github.com/mudream4869/imgcity/blob/main/LICENSE) 發布，文章以 [CC-BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) 發佈。
