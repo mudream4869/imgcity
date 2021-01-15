@@ -6,8 +6,12 @@ from app.handlers.base import RequestHandler
 class BlogHandler(RequestHandler):
     async def get(self, year, month, day, name):
         try:
+            full_name = f'blog/{year}/{month}/{day}/{name}'
             content = await self.blog_reader.get_blog(year, month, day, name)
-            self.render('blogpost.html', content=content)
+            self.render('blogpost.html',
+                content=content,
+                full_name=full_name,
+                github_comment_url=self.github_comment_url)
         except FileNotFoundError:
             raise web.HTTPError(404)
 

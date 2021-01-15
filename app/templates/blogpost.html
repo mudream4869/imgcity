@@ -12,6 +12,9 @@ img {
 
 <div class="white-space">
   {% raw content %}
+  <hr>
+  留言請至<a href="{{ github_comment_url }}/issues?q=is%3Aissue+is%3Aopen+{{ full_name }}">Git Issue</a>留言，找到標題為 <code>{{ full_name }}</code> 的 Issue，假如沒有，請新增。
+  <hr>
 </div>
 
 <script>

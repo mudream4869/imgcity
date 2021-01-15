@@ -29,6 +29,7 @@ def make_app(config):
         'redis_client': redis_client,
         'piki_reader': piki_reader,
         'blog_reader': blog_reader,
+        'github_comment_url': srv_conf['github_comment_url'],
     }
 
     file_dir = os.path.dirname(__file__)

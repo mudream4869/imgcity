@@ -16,8 +16,13 @@ class PikiHandler(RequestHandler):
             })
 
         try:
+            full_name = f'piki/{path}'
             content = await self.piki_reader.get_piki(path)
-            self.render('piki.html', content=content, breadcrumb=breadcrumb)
+            self.render('piki.html',
+                content=content,
+                breadcrumb=breadcrumb,
+                full_name=full_name,
+                github_comment_url=self.github_comment_url)
         except FileNotFoundError:
             raise web.HTTPError(404)
 
