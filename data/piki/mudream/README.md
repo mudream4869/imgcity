@@ -8,8 +8,6 @@
 
 * 暱稱：Mudream、姆Q
 
-* 目前狀態：自戀、崩潰、為了認清自己而努力中
-
 * 喜歡：數論、Coding、Stepmania、百合、偽百合、帕秋莉、恐怖RPG、VR/AR
 
 * 討厭：機率
@@ -17,7 +15,6 @@
 ## 可以在哪裡找到我？
 
 [Github](https://github.com/mudream4869)
-[Twitter](https://twitter.com/mudream4869)
 
 [![math](https://math.stackexchange.com/users/flair/221395.png)
 ](https://math.stackexchange.com/users/221395/mudream)
@@ -30,15 +27,12 @@
 |------------|-------|----------|
 | C          | ★★★☆☆ ||
 | C++11      | ★★★☆☆ | 寫過一個RPG遊戲引擎  |
-| Python     | ★★★☆☆ | 主要是用來架設Server |
+| Python     | ★★★☆☆ | 大概穩定的 Service |
+| Golang     | ★★★☆☆ | 大概穩定的 Service |
 | HTML       | ★★☆☆☆ ||  
-| Javascript | ★★☆☆☆ || 
+| Javascript | ★★☆☆☆ ||
+| Typescript | ★☆☆☆☆ ||
 | SQL        | ★☆☆☆☆ | 簡易的CRUD |
-| Ruby       | ★☆☆☆☆ | 寫過一個簡易的書櫃 |
-
-#### 常用工具
-
-* 架設網站 : Python3+Tornado+Nginx+PostgreSQL
 
 #### Stepmania
 

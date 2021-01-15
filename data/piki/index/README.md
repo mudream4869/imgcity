@@ -25,3 +25,4 @@ PIKI 是 Private wiki 的縮寫，
 ## 其他
 
 * [友情連接](/piki/links/)
+* [留言系統](/piki/comment/)
