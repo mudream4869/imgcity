@@ -10,9 +10,6 @@ max-width: 100%;
 
 </style>
 
-
-
-
 <div class="white-space">
 
   <div>
@@ -24,6 +21,14 @@ max-width: 100%;
 
   {% raw content %}
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre code').forEach((block) => {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
 
 <div class="right-menu">
   <div class="item" onclick="location.href='/'"> 主畫面 </div>

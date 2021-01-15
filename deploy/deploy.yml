@@ -63,3 +63,6 @@
       service:
         name: nginx
         state: restarted
+    
+    - name: Flush Redis
+      command: redis-cli FLUSHDB
