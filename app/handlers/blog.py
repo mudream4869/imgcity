@@ -11,7 +11,7 @@ class BlogHandler(RequestHandler):
             self.render('blogpost.html',
                 content=content,
                 full_name=full_name,
-                github_comment_url=self.github_comment_url)
+                github_comment_source=self.github_comment_source)
         except FileNotFoundError:
             raise web.HTTPError(404)
 

@@ -5,4 +5,4 @@ server:
   piki_root: data/piki
   blog_root: data/blog
 
-  github_comment_url: https://github.com/mudream4869/imgcity-comment
+  github_comment_source: user/repo
