@@ -39,7 +39,7 @@ typedef std::map<const char*, void* , StrCompare> Env;
 
 ## 事件腳本
 
-這裏我直接用Python，引擎會直接把腳本讀進來，呼叫腳本裡的函數。使用`Function Pointer Callback`達成腳本和遊戲引擎溝通。詳細方式見[C和Python混和編程](http://mudream.logdown.com/posts/247092/c-and-python-mixed-programming)
+這裏我直接用Python，引擎會直接把腳本讀進來，呼叫腳本裡的函數。使用`Function Pointer Callback`達成腳本和遊戲引擎溝通。詳細方式見[C和Python混和編程](/blog/2014-12-21/c-add-python-mixed-programming/)
 
 然後腳本可以這樣寫：
 

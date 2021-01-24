@@ -1,6 +1,6 @@
 # PbrtCraft 進度二
 
-[點我到上一次進度](/blogpost/2019/01/12/pbrtcraft-episode-1)
+[點我到上一次進度](/blog/2019-01-12/pbrtcraft-episode-1/)
 
 這一次進度包含物理、讀檔還有一些讓 Code 更好維護。
 
@@ -55,6 +55,7 @@ Minecraft 的生態域顏色是寫死的，可以直接參照 [Mineway/biomes.cp
 ### Pylint
 
 這個程式可以指出 python script 哪些地方有問題，例如：
+
 * 多出的空白
 * 逗號後面有沒有空格
 * Class, Function 有沒有 docstring
