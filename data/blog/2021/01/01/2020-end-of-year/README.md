@@ -36,7 +36,7 @@
 
 ## ImgCity
 
-對之前的 ImageCity 進行重構了，本來是寫成像是 Single Page Application，但這樣很難做 SEO ，所以乾脆還是用 python tornado 重寫了一遍，並且把 Deploy script 也擺了上去。
+對之前的 ImaginaryCity 進行重構了，本來是寫成像是 Single Page Application，但這樣很難做 SEO ，所以乾脆還是用 python tornado 重寫了一遍，並且把 Deploy script 也擺了上去。
 
 [https://github.com/mudream4869/imgcity](https://github.com/mudream4869/imgcity)
 
