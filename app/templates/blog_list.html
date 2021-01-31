@@ -47,8 +47,10 @@ div.blog-list {
 
 <div class="tag-box">
   {% for tag in tags_count %}
-    <div class="tag" onclick="location.href='/blog/?tag={{tag}}'">
-      {{tag}}: {{tags_count[tag]}}
+    <div
+      class="tag"
+      onclick="location.href='/blog/?tag={{url_escape(tag)}}'">
+        {{tag}}: {{tags_count[tag]}}
     </div>
   {% end %}
 </div>
