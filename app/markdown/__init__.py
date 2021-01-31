@@ -28,7 +28,7 @@ def abbrMarkdownHTML(content: str, line_count=3):
     soup = BeautifulSoup(html, 'html.parser')
 
     result = []
-    for ele in soup.find_all('p')[:3]:
+    for ele in soup.find_all('p')[:line_count]:
         result.append(ele.text)
 
     return '<br>\n'.join(result) + '<br>'

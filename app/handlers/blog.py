@@ -9,9 +9,9 @@ class BlogHandler(RequestHandler):
             full_name = f'blog/{year}/{month}/{day}/{name}'
             content = await self.blog_reader.get_blog(year, month, day, name)
             self.render('blogpost.html',
-                content=content,
-                full_name=full_name,
-                github_comment_source=self.github_comment_source)
+                        content=content,
+                        full_name=full_name,
+                        github_comment_source=self.github_comment_source)
         except FileNotFoundError:
             raise web.HTTPError(404)
 
@@ -24,4 +24,15 @@ class BlogFileHandler(web.StaticFileHandler):
 
 class BlogIndexHandler(RequestHandler):
     async def get(self):
-        self.render('blog_list.html', blogpost_list=self.blog_reader.blog_list)
+        tag = self.get_argument('tag', None)
+        blogpost_list = self.blog_reader.blog_list
+        if tag:
+            new_list = []
+            for blog in blogpost_list:
+                if tag in blog['tags']:
+                    new_list.append(blog)
+            blogpost_list = new_list
+
+        self.render('blog_list.html',
+                    blogpost_list=blogpost_list,
+                    tags_count=self.blog_reader.tags_count)

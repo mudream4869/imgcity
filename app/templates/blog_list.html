@@ -17,10 +17,43 @@ div.content{
   padding-bottom: 15px;
 }
 
+div.tag-box{
+  position: fixed;
+  left: 10px;
+  top: 10px;
+
+  width: 100px;
+}
+
+div.tag{
+  font-size: 14px;
+  background-color: rgba(201, 165, 248, 0.5);
+  cursor: pointer;
+  padding: 3px;
+  margin: 3px;
+  text-align: center;
+}
+
+div.tag:hover{
+  background-color: rgba(201, 165, 248, 0.7);
+}
+
+div.blog-list {
+  padding: 10%;
+  padding-top: 5px;
+}
+
 </style>
 
+<div class="tag-box">
+  {% for tag in tags_count %}
+    <div class="tag" onclick="location.href='/blog/?tag={{tag}}'">
+      {{tag}}: {{tags_count[tag]}}
+    </div>
+  {% end %}
+</div>
 
-<div style="padding: 10%; padding-top: 5px;">
+<div class="blog-list">
 
 {% for bp in blogpost_list %}
 

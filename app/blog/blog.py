@@ -16,6 +16,7 @@ class BlogReader:
         self.blog_root = blog_root
 
         self.blog_list = self._get_blog_list()
+        self.tags_count = self._get_tags_count()
 
     def _is_legal_date(self, year: str, month: str, day: str) -> bool:
         if len(year) != 4 or len(month) != 2 or len(day) != 2:
@@ -47,6 +48,7 @@ class BlogReader:
                     datetime: YYYY-MM-DD
                     filename: <blog filename>
                     title: <blog title>
+                    tags: [<tag>, ...]
                 }, ...
             ]
         """
@@ -84,6 +86,19 @@ class BlogReader:
     def _get_blog_abbr(self, year: str, month: str, day: str, name: str):
         content = self._get_blog_noasync(year, month, day, name)
         return abbrMarkdownHTML(content)
+
+    def _get_tags_count(self):
+        """
+            Return {tag: count}
+        """
+
+        tags_count = {}
+        for blog in self.blog_list:
+            for tag in blog['tags']:
+                tags_count.setdefault(tag, 0)
+                tags_count[tag] += 1
+
+        return tags_count
 
     async def get_blog(self, year: str, month: str, day: str, name: str):
         if not self._is_legal_date(year, month, day):
