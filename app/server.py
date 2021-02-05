@@ -8,6 +8,7 @@ from tornado import web
 import yaml
 
 from app import blog, piki
+from app.rss import generate_rss
 from app.handlers import (BlogFileHandler, BlogHandler, BlogIndexHandler,
                           MainHandler, PikiFileHandler, PikiHandler)
 
@@ -41,6 +42,9 @@ def make_app(config):
         'template_path': os.path.join(file_dir, 'templates')
     }
 
+    rss_file_path = os.path.join(file_dir, 'static', 'rss', 'rss.xml')
+    generate_rss(srv_conf['site_domain'], rss_file_path, blog_reader)
+
     return tornado.web.Application([
         (r'/', MainHandler, args),
         (r'/blog/', BlogIndexHandler, args),
@@ -51,6 +55,7 @@ def make_app(config):
         (r'/piki/', web.RedirectHandler, {'url': '/piki/index/'}),
         (r'/piki/(.*)/', PikiHandler, args),
         (r'/piki/(.*)', PikiFileHandler, {'path': piki_root}),
+
     ], **setting)
 
 

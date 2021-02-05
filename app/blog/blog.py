@@ -34,7 +34,7 @@ class BlogReader:
 
         return True
 
-    def _get_blog_list(self):
+    def _get_blog_list(self, n=None, full=False):
         """
             Load blog list
 
@@ -56,6 +56,10 @@ class BlogReader:
         with open(path, 'r') as f:
             blogitems = yaml.safe_load(f)['bloglist']
             blogitems.sort(key=lambda x: x['datetime'], reverse=True)
+
+            if n:
+                blogitems = blogitems[:n]
+
             for item in blogitems:
                 dt = item['datetime']
                 item['datetime'] = '%04d-%02d-%02d' % (
@@ -67,6 +71,12 @@ class BlogReader:
 
                 item['abstract'] = self._get_blog_abbr(
                     syear, smonth, sday, item['filename'])
+
+                if full:
+                    content = self._get_blog_noasync(
+                        syear, smonth, sday, item['filename'])
+                    item['full'] = markdownToHTML(content)
+
             return blogitems
 
     async def _get_blog(self, year: str, month: str, day: str, name: str):

@@ -5,4 +5,6 @@ server:
   piki_root: data/piki
   blog_root: data/blog
 
+  site_domain: http://localhost
+
   github_comment_source: user/repo
