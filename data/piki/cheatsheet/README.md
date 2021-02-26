@@ -4,7 +4,7 @@
 有 [一份](https://github.com/mudream4869/misc-note/blob/master/cheatsheet/)，
 可能會開 repo 來管理。
 
-## iPyhton Noetbook
+## Pyhton
 
 ### Unzip
 
@@ -74,3 +74,69 @@ $ pg_dump -s > outfile
 ## Vim
 
 * Makefile tab : `<C-V><Tab>`
+
+## Git
+
+### 移除 Submodule
+
+```bash
+mv a/submodule a/submodule_tmp
+
+git submodule deinit -f -- a/submodule    
+rm -rf .git/modules/a/submodule
+git rm -f a/submodule
+```
+
+## Bash
+
+### 尋找並且取代
+
+```bash
+sed -i 's/old-text/new-text/g' filename
+```
+
+### 尋找超過 1M 的檔案
+
+```bash
+find . -type f -size +1M
+```
+
+### 尋找某些檔案
+
+```bash
+find -L . -name '*.png'
+```
+
+## Ansible
+
+### Python 版本問題
+
+Ansible 錯誤訊息：
+
+```
+An unhandled exception occurred while running the lookup plugin 'hashi_vault'.
+Error was a <class 'ansible.errors.AnsibleError'>,
+original message:
+Please pip install hvac to use the hashi_vault lookup module.
+```
+
+請檢查 Ansible 的 Python env
+
+```bash
+ansible -m debug -a 'var=ansible_playbook_python' localhost
+```
+
+
+```
+localhost | SUCCESS => {
+    "ansible_playbook_python": "/usr/local/Cellar/ansible/2.6.0/libexec/bin/python2.7"
+}
+```
+
+```bash
+source /usr/local/Celler/ansible/2.6.0/libexec/bin/activate
+pip install hvac
+```
+
+[參考資料](https://github.com/ansible/ansible/issues/28050#issuecomment-402220672)
+
