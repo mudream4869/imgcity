@@ -4,7 +4,7 @@
 有 [一份](https://github.com/mudream4869/misc-note/blob/master/cheatsheet/)，
 可能會開 repo 來管理。
 
-## Pyhton
+## Python
 
 ### Unzip
 
@@ -64,12 +64,14 @@ $ pg_dump -s > outfile
 
 ## ssh 安全
 
-* [禁止ssh root](https://blog.longwin.com.tw/2008/10/security-debian-ubuntu-linux-deny-root-login-2008/)
+* 禁止ssh root
+
+```
+sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
+/etc/init.d/ssh restart
+```
+
 * [ssh 小技巧](http://www.study-area.org/tips/ssh_tips.htm)
-
-## CDN File
-
-* [RawGit](https://rawgit.com)
 
 ## Vim
 
@@ -105,6 +107,18 @@ find . -type f -size +1M
 
 ```bash
 find -L . -name '*.png'
+```
+
+### 在指定位置解開 deb package
+
+```bash
+dpkg -x {deb filename} {target folder}
+```
+
+### CMake 顯示所有 option
+
+```bash
+cmake -LA
 ```
 
 ## Ansible
