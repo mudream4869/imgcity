@@ -8,7 +8,7 @@ class PikiHandler(RequestHandler):
         level = path.split('/')
         prelevel = '/piki/'
         breadcrumb = []
-        for i, lv in enumerate(level):
+        for lv in level:
             prelevel += lv + '/'
             breadcrumb.append({
                 'text': lv,
@@ -19,10 +19,10 @@ class PikiHandler(RequestHandler):
             full_name = f'piki/{path}'
             content = await self.piki_reader.get_piki(path)
             self.render('piki.html',
-                content=content,
-                breadcrumb=breadcrumb,
-                full_name=full_name,
-                github_comment_source=self.github_comment_source)
+                        content=content,
+                        breadcrumb=breadcrumb,
+                        full_name=full_name,
+                        github_comment_source=self.github_comment_source)
         except FileNotFoundError:
             raise web.HTTPError(404)
 
